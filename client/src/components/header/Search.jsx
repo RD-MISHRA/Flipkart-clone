@@ -19,6 +19,7 @@ font-size: unset;
 const WrapperBox=styled(Box)`
 color:blue;
 padding:5px;
+display:flex;
 `
 
 
