@@ -7,7 +7,7 @@ import {Box} from '@mui/material';
 function App() {
   return (
     <div>
-    <p>hello</p>
+    
     <Header/>
     <Box >    <Home/></Box>
     

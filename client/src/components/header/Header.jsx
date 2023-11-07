@@ -42,7 +42,7 @@ const Header = () => {
             <Box style={{display:'flex'}}>
                 <Subheading>Explore&nbsp;
                 <Box component="span" style={{color:'yellow'}}>Plus</Box></Subheading>
-                <PlusImage src={subURL}/>
+                <PlusImage src={subURL} />
             </Box>
             {/* <PlusImage src={subURL}/> */}
         </Component>
