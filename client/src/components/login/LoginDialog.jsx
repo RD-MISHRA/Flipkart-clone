@@ -150,7 +150,7 @@ const onInputChange=(e)=>{
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='phone' label='Enter Phone' />
                             <LoginButton onClick={signupUser} >Continue</LoginButton>
-
+jhj
         </Wrapper>
         }
         </Box>
