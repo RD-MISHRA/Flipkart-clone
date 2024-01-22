@@ -1,7 +1,9 @@
 import {Dialog,Box,TextField,Typography,Button,styled} from '@mui/material'
-import { useState } from 'react';
+import { useState ,useContext} from 'react';
 
-import {authenticateSignup} from '../../service/api.js';
+
+import { DataContext } from '../../context/DataProvider.jsx';
+import {authenticateSignup,authenticateLogin} from '../../service/api.js';
 const Component =styled(Box)`
 height:75vh;
 width:90vh;
@@ -32,7 +34,13 @@ overflow: hidden;
     margin-top:20px;
 }
 `
-
+const Error = styled(Typography)`
+    font-size: 10px;
+    color: #ff6161;
+    line-height: 0;
+    margin-top: 10px;
+    font-weight: 600;
+`
 const LoginButton = styled(Button)`
   && {
     text-transform: none;
@@ -65,7 +73,6 @@ text-align:center;
 color:#2874f0;
 font-weight:600;
 cursor:pointer;
-
 `
 
 const signupInitialValues = {
@@ -76,6 +83,12 @@ const signupInitialValues = {
     password: '',
     phone: ''
 };
+const loginInitialValues={
+    username:'',
+    password:''
+}
+
+
 const accountInitialValues = {
     login: {
         view: 'login',
@@ -89,8 +102,19 @@ const accountInitialValues = {
     }
 }
 const LoginDialog =({open,setOpen})=>{
-    const [ signup, setSignup ] = useState(signupInitialValues);
-const [account,toggleAccount]=useState(accountInitialValues.login)
+const [ signup, setSignup ] = useState(signupInitialValues);
+const [account,toggleAccount]=useState(accountInitialValues.login);
+const{setAccount}=useContext(DataContext);
+const [login,setLogin]=useState(loginInitialValues);
+const [error,setError]=useState(false);
+
+
+//this is written to close the logindialoug box when clicked on screen
+const handleClose=()=>{
+    setOpen(false);
+    toggleAccount(accountInitialValues.login);
+    setError(false);
+}
 
 const toggleSignup=()=>{
     toggleAccount(accountInitialValues.signup);
@@ -98,22 +122,60 @@ const toggleSignup=()=>{
 
 }
 
-const signupUser=async()=>{
-    let res=await authenticateSignup(signup);
-}
+//   //this is written to close the logindialoug box when clicked on screen
+//   const handleClose=()=>{
+//     setOpen(false);
+//     toggleAccount(accountInitialValues.login);
+// }
 
-    //this is written to close the logindialoug box when clicked on screen
-    const handleClose=()=>{
-        setOpen(false);
-        toggleAccount(accountInitialValues.login);
-    }
+// const signupUser=async()=>{
+//     let res=await authenticateSignup(signup);
+//     console.log(res);
+// }
+
+    // //this is written to close the logindialoug box when clicked on screen
+    // const handleClose=()=>{
+    //     setOpen(false);
+    //     toggleAccount(accountInitialValues.login);
+    // }
 
 const onInputChange=(e)=>{
     setSignup({ ...signup, [e.target.name]: e.target.value });
     console.log(signup);
-
 }
 
+const onValueChange=(e)=>{
+    setLogin({...login,[e.target.name]: e.target.value})
+}
+// const signupUser=async()=>{
+//     let res=await authenticateSignup(signup);
+//     console.log(res);
+// }
+const signupUser = async () => {
+    try {
+        let res = await authenticateSignup(signup);
+        if(!res)
+        return;
+    handleClose();
+    setAccount(signup.firstname)
+        console.log(res);
+    } catch (error) {
+        console.error("Error in signupUser:", error);
+    }
+};
+
+const loginUser=async()=>{
+
+    let response=await authenticateLogin(login);
+console.log(response);
+if(response.status===200){
+    handleClose();
+    setAccount(response.data.data.firstname);
+}
+else{
+setError(true);
+}
+}
 
 
 
@@ -131,10 +193,11 @@ const onInputChange=(e)=>{
         </Image>
         {  account.view==='login'?
         <Wrapper>
-            <TextField variant="standard" label="Enter Email/Mobile number"/>
-            <TextField variant="standard" label="Password"/>
+            <TextField variant="standard" onChange={(e)=>onValueChange(e)} name='username' label="Enter Email/Mobile number"/>
+          {error &&<Error>Please enter valid username or password</Error>}
+            <TextField variant="standard"onChange={(e)=>onValueChange(e)} name='password' label="Password"/>
             <Text>i agree to the terms and conditions </Text>
-            <LoginButton>Login</LoginButton>
+            <LoginButton onClick={()=>loginUser()}>Login</LoginButton>
             <Typography style={{textAlign:'center'}}>OR</Typography>
             <RequestOTP>Request OTP</RequestOTP>
             <CreateAccount onClick={toggleSignup}>New to Flipkart?Create an account </CreateAccount>
@@ -150,7 +213,7 @@ const onInputChange=(e)=>{
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='password' label='Enter Password' />
                             <TextField variant="standard" onChange={(e) => onInputChange(e)} name='phone' label='Enter Phone' />
                             <LoginButton onClick={signupUser} >Continue</LoginButton>
-jhj
+
         </Wrapper>
         }
         </Box>
@@ -159,4 +222,4 @@ jhj
     )
 }
 
-export default LoginDialog
+export default LoginDialog;
