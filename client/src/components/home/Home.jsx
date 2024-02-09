@@ -6,7 +6,13 @@ import {styled,Box} from '@mui/material';
 import { useEffect } from "react";
 import { getProducts } from "../../redux/actions/productActions";
 import {useDispatch,useSelector} from 'react-redux';
+import Slide from './Slide.jsx';
+import MidSlide from './MidSlide.jsx'
+import MidSection from "./MidSection.jsx";
+
+
 const Component=styled(Box)`
+
 padding:10px;
 background:#F2F2F2;
 `
@@ -24,7 +30,18 @@ useEffect(()=>{
     return (
         <Fragment><NavBar/>
        
-        <Component>        <Banner/></Component>
+        <Component>        <Banner/>
+        
+        <Slide products={products}  title="Deal of the day" timer={true}/>
+        <MidSlide products={products}  title="Discounts for you" timer={false}/>
+        <MidSection/>
+        <Slide products={products}  title="Suggesting Items" timer={false}/>
+       
+        <Slide products={products}  title="Top Selection" timer={false}/>
+        <Slide products={products}  title="Recommended Items" timer={false}/>
+        <Slide products={products}  title="Season's top picks " timer={false}/>
+        <Slide products={products}  title="Tops deal on accessories" timer={false}/>
+        </Component>
         
         </Fragment>
     
