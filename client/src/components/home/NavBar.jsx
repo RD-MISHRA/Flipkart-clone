@@ -23,6 +23,7 @@ font-family:inherit;
 
 const NavBar=()=>{
     return(
+        <Box style={{background:'#fff'}}>
         <Components>
     {
         navData.map(data=>(
@@ -33,6 +34,7 @@ const NavBar=()=>{
         ))
     }
         </Components>
+        </Box>
     )
 }
 

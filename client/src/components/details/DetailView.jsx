@@ -13,10 +13,13 @@ display:flex;
 
 `
 
-const Container=styled(Grid)`
-background:#FFFFFF;
-display:flex;
-`
+const Container = styled(Grid)(({ theme }) => ({
+    background: '#FFFFFF',
+    display: 'flex',
+    [theme.breakpoints.down('md')]: {
+        margin: 0
+    }
+}));
 const RightContainer=styled(Grid)`
 margin-top:50px;
 padding-left:15px;
@@ -41,7 +44,7 @@ const DetailView = () => {
         <Component>{
               product && Object.keys(product).length && 
               <Container container>
-
+ 
 <Grid item lg={4} md={4} sm={8} xs={12}><ActionItems product={product}/> </Grid>
 <RightContainer item lg={8} md={8} sm={8}>
 <Typography >{product.title.longTitle}</Typography> 
