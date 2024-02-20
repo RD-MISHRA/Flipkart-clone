@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {  toast } from 'react-toastify';
 import { Box, Button, styled } from '@mui/material';
 import { ShoppingCart as Cart, FlashOn as Flash } from '@mui/icons-material';
 import { UseDispatch, useDispatch } from 'react-redux';
@@ -38,8 +39,14 @@ const {id}=product;
 const navigate=useNavigate();
 const addItemToCart=()=>{
   dispatch(addToCart(id,quantity));
+  toast.info("Item added to cart");
   navigate('/cart');
 }
+
+
+const BuyNow = () => {
+  toast.info('ADD IN CART AND THEN BUY');
+};
 
 
   return (
@@ -48,7 +55,7 @@ const addItemToCart=()=>{
       <Image src={product.detailUrl} alt="product" /> {/* Assuming Product is defined */}
       </Box>
       <StyledButton variant="contained"onClick={()=>addItemToCart()} style={{marginRight:10,background:'#ff9f00'}}><Cart />Add to Cart</StyledButton>
-      <StyledButton variant="contained" style={{background:'#fb541b'}}><Flash />Buy Now</StyledButton> {/* Typo: should be "contained" */}
+      <StyledButton variant="contained" style={{background:'#fb541b'}}onClick={BuyNow}><Flash />Buy Now</StyledButton> {/* Typo: should be "contained" */}
     </LeftContainer>
   );
 };

@@ -3,7 +3,7 @@ import { addEllipsis } from "../../utils/common-utils";
 import {useDispatch} from 'react-redux';
 import ButtonGroup from "./ButtonGroup";
 import {removeFromCart} from "../../redux/actions/cartActions.js";
-
+import {  toast } from 'react-toastify';
 
 const Component = styled(Box)`
 border-top:1px solid #f0f0f0;
@@ -39,6 +39,7 @@ const dispatch=useDispatch();
 
   const removeItemFromCart=(id)=>{
     dispatch(removeFromCart(id));
+    toast.info("Item removed from cart");
   }
 
 

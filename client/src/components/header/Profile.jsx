@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Typography, Menu, MenuItem, Box, styled } from '@mui/material';
 import { PowerSettingsNew } from '@mui/icons-material';
-
+import {  toast } from 'react-toastify';
 const Component = styled(Menu)`
     margin-top: 5px;
 `;
@@ -26,6 +26,7 @@ const Profile = ({ account, setAccount }) => {
 
     const logoutUser = () => {
         setAccount('');
+        toast.info("Successfully logged out")
     }
     
     return (
