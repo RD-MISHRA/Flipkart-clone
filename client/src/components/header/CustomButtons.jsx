@@ -6,6 +6,7 @@ import { UseSelector, useSelector } from 'react-redux';
 import { Box, Button, Typography, Badge,styled } from '@mui/material'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 // COMPONENTS
+import {  toast } from 'react-toastify';
 import LoginDialog from '../login/LoginDialog';
 import { DataContext } from '../../context/DataProvider';
 
@@ -78,6 +79,11 @@ const {cartItems}=useSelector(state=>state.cart)
     const openDialog = () => {
         setOpen(true);
     }
+    const handleBecomeSellerClick = () => {
+        toast.info('Currently not available');
+    };
+
+
     return (
         <Wrapper>
             {
@@ -85,7 +91,7 @@ const {cartItems}=useSelector(state=>state.cart)
                     <LoginButton variant="contained" onClick={() => openDialog()}>Login</LoginButton>
 
             }
-            <Typography style={{ marginTop: 3, width: 135 }}>Become a Seller </Typography>
+            <Typography style={{ marginTop: 3, width: 135,cursor: 'pointer' }}onClick={handleBecomeSellerClick}>Become a Seller </Typography>
             <Typography style={{ marginTop: 3 }}>More</Typography>
             <Container to="/cart">
              <Badge badgeContent={cartItems?.length} color="secondary"> 

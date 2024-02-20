@@ -2,6 +2,8 @@
 import { Grid,Typography,Box,styled, Button } from "@mui/material";
 import { UseSelector, useSelector } from "react-redux";
 //components
+import { loadStripe } from '@stripe/stripe-js';
+import {  toast } from 'react-toastify';
 
 
 import CartItem from "./CartItems";
@@ -46,6 +48,81 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
 
  const Cart=()=>{
 const {cartItems}=useSelector(state=>state.cart)
+
+
+
+// const makePayment = async()=>{
+//     const stripe = await loadStripe("pk_test_51OlanvSIJHY8OKsruQZYNUBBGB4YaKCkekOpK9F1XNgTWn9ZYCScOKG1YnazbQI6SLseWjYPApI3BPVfn7wLHSyJ00jURQTfIq");
+
+//     const body = {
+//         products:cartItems
+        
+//     }
+//     const headers = {
+//         "Content-Type":"application/json"
+//     }
+//     const response = await fetch("http://localhost:8000/api/create-checkout-session",{
+//         method:"POST",
+//         headers:headers,
+//         body:JSON.stringify(body)
+//     });
+
+//     const session = await response.json();
+
+//     const result = stripe.redirectToCheckout({
+//         sessionId:session.id
+//     });
+    
+//     if(result.error){
+//         console.log(result.error);
+//     }
+// }
+
+const makePayment = async () => {
+    // Load Stripe
+    const stripe = await loadStripe("pk_test_51OlanvSIJHY8OKsruQZYNUBBGB4YaKCkekOpK9F1XNgTWn9ZYCScOKG1YnazbQI6SLseWjYPApI3BPVfn7wLHSyJ00jURQTfIq");
+    
+    // Prepare the request body with cart items
+    const body = {
+        products: cartItems,
+    };
+
+    const headers = {
+        "Content-Type": "application/json"
+    };
+
+    try {
+        // Make a POST request to create a checkout session
+        const response = await fetch("http://localhost:8000/api/create-checkout-session", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
+        });
+
+        // Parse the response to get the session ID
+        const session = await response.json();
+
+        // Redirect to checkout using the session ID
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.sessionId // Ensure correct property name
+        });
+
+        // Handle any errors during redirection
+        if (result.error) {
+            console.error(result.error);
+            toast.info("Payment failed");
+        }
+    } catch (error) {
+        console.error("Error creating checkout session:", error);
+        toast.error("Error creating checkout session");
+    }
+};
+
+
+
+
+
+
     return (
         <>
        {
@@ -61,7 +138,7 @@ const {cartItems}=useSelector(state=>state.cart)
     ))
 }
 <BottomWrapper>
-<StyledButton>Place Order</StyledButton>
+<StyledButton onClick={makePayment}>Place Order</StyledButton>
 </BottomWrapper>
 
             </LeftComponent>
