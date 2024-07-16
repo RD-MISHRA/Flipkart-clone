@@ -9,6 +9,7 @@ import ProductDetail from './ProductDetail';
 const Component=styled(Box)`
 background:#F2F2F2;
 margin-top:54px;
+margin-left:60px;
 display:flex;
 
 `
