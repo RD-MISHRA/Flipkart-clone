@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+
 // const stripe = require("stripe")(sk_test_51OlanvSIJHY8OKsr2uz8PXMIoudOoKGW0poQiyneoweDXSZhsZh1eFDbQfX5mSv1AdXXsCTS3XQXOVsFHGWDMxKy00lvrQhzGK);
 import stripePackage from 'stripe';
 
@@ -81,4 +82,4 @@ const PASSWORD=process.env.DB_PASSWORD;
 
 Connection(USERNAME , PASSWORD);
 app.listen(PORT,()=>console.log(`server is running on port ${PORT}`));
-DefaultData();
+ DefaultData();
